@@ -134,7 +134,7 @@ class UserController extends Controller {
         if ($userModel->load(Yii::$app->request->post())) {
             $userModel->isNewRecord = true;
             $userModel->groups = Yii::$app->request->post('YiiUserModel')['groups'];
-            $userModel->password = md5($userModel->password);
+            $userModel->password = password_hash($userModel->password, PASSWORD_BCRYPT);
 
             $dataToSend[] = $userModel->attributesToArray();
             
@@ -182,7 +182,7 @@ class UserController extends Controller {
                 $userModel->groups = Yii::$app->request->post('YiiUserModel')['groups'];
             }
             if (isset($userModel->password) && $userModel->password !== "") {
-                $userModel->password = md5($userModel->password);
+                $userModel->password = password_hash($userModel->password, PASSWORD_BCRYPT);
             }
 
             $dataToSend[] = $userModel->attributesToArray();
