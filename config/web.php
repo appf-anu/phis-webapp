@@ -19,6 +19,8 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            // set to false if you wan to use MD5
+            'useBCRYPT' => true
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

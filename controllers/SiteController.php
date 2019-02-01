@@ -1,5 +1,8 @@
 <?php
 
+
+require_once '../config/web.php';
+
 namespace app\controllers;
 
 use Yii;
@@ -89,13 +92,26 @@ class SiteController extends Controller
         $model = new \app\models\yiiModels\YiiTokenModel();
         
          if ($model->load(Yii::$app->request->post())) {
-             $model->password = password_hash($model->password, PASSWORD_BCRYPT);
-             if ($model->login()) {
-                $this->getLoggedUsersGroups();
-                return $this->goHome();
-             } else {
-                 Yii::$app->getSession()->setFlash('error', Yii::t('app/messages','Bad email / password'));
-             }
+
+            
+            
+            if ($config['components']['user']['useBCRYPT'] ){
+            
+                $model->password = password_hash($model->password, PASSWORD_BCRYPT);
+            
+            } else {
+
+                $model->password = md5($model->password);
+
+            }
+
+
+            if ($model->login()) {
+               $this->getLoggedUsersGroups();
+               return $this->goHome();
+            } else {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app/messages','Bad email / password'));
+            }
         }
         
         return $this->render('login', [
