@@ -92,20 +92,13 @@ class SiteController extends Controller
         $model = new \app\models\yiiModels\YiiTokenModel();
         
          if ($model->load(Yii::$app->request->post())) {
-
-            
-            
+             
             if ($config['components']['user']['useBCRYPT'] ){
-            
                 $model->password = password_hash($model->password, PASSWORD_BCRYPT);
-            
             } else {
-
                 $model->password = md5($model->password);
-
             }
-
-
+             
             if ($model->login()) {
                $this->getLoggedUsersGroups();
                return $this->goHome();
