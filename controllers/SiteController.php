@@ -94,7 +94,7 @@ class SiteController extends Controller
          if ($model->load(Yii::$app->request->post())) {
              
             if ($config['components']['user']['useBCRYPT'] ){
-                $model->password = password_hash($model->password, PASSWORD_BCRYPT);
+                $model->password = $model->password;
             } else {
                 $model->password = md5($model->password);
             }
